@@ -44,20 +44,22 @@ Oracle applications with Instant Client.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_datadir}/sqlplus,%{_javadir}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_examplesdir}/%{name},%{_javadir}} \
+	$RPM_BUILD_ROOT%{_includedir}/oracle/client
 
-install %{srcdir}/*.jar $RPM_BUILD_ROOT%{_javadir}
-install %{srcdir}/*.so* $RPM_BUILD_ROOT%{_libdir}
-install %{srcdir}/genezi $RPM_BUILD_ROOT%{_bindir}/genezi
-install %{srcdir}/adrci $RPM_BUILD_ROOT%{_bindir}/adrci
+install %{srcdir}/sdk/ottclasses.zip $RPM_BUILD_ROOT%{_javadir}
+install %{srcdir}/sdk/ott $RPM_BUILD_ROOT%{_bindir}
+install %{srcdir}/sdk/include/* $RPM_BUILD_ROOT%{_includedir}/oracle/client
+install %{srcdir}/sdk/demo/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%{_javadir}/*.jar
-%attr(755,root,root) %{_libdir}/*.so*
-%attr(755,root,root) %{_bindir}/genezi
-%attr(755,root,root) %{_bindir}/adrci
-%doc %{srcdir}/BASIC_README
+%doc %{srcdir}/sdk/SDK_README
+#%attr(755,root,root) %{_libdir}/*.so
+%attr(755,root,root) %{_bindir}/ott
+%{_includedir}/oracle/client
+%{_examplesdir}/%{name}
+%{_javadir}/*.zip
